@@ -1,0 +1,9 @@
+staticfiles/media_root/
+.idea/
+venv/
+db.sqlite3
+__pycache__/
+*.pyc
+*.pyo
+*/migrations/
+!*/migrations/__init__.py
