@@ -11,11 +11,11 @@ from rest_framework.decorators import api_view
 
 @api_view(['GET',"post"])
 def all_todos(request: Request):
-    if Request.method == 'GET':
+    if request.method == 'GET':
         todos = Todo.objects.order_by("priority").all()
         todo_serializer = TodoSerializer(todos, many=True)
         return Response(todo_serializer.data, status=status.HTTP_200_OK)
-    elif Request.method == 'POST':
+    elif request.method == 'POST':
         serializer = TodoSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
