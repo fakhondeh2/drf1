@@ -9,6 +9,9 @@ class Todo(models.Model):
     is_done = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f"{self.title}/{self.is_done}"
+
 
     class Meta:
         db_table = "todos"
