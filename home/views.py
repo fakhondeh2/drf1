@@ -22,5 +22,5 @@ def index(request):
 
 @api_view(['GET'])
 def todos_json(request: Request):
-    todos:list(Todo.objects.order_by("priority").all().values("is_done", "priority"))
-    return Response({"todos":todos}),status.HTTP_200_OK
+    todos = list(Todo.objects.order_by("priority").all().values("is_done", "priority"))
+    return Response({"todos": todos}, status=status.HTTP_200_OK)
