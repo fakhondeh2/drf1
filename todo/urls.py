@@ -20,5 +20,6 @@ from . import views
 app_name = 'todo_urls'
 
 urlpatterns = [
-    path('', views.all_todos, name='todos_drf'),
+    path('', views.all_todos, name='todo_create_list'),
+    path('<todo_id>', views.todo_detail_view, name='detail_list_delet'),
 ]
