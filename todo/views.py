@@ -76,7 +76,30 @@ class TodoList(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class jhg():
-    pass
+class Todo_detail_api_view(APIView):
 
+
+    def get_object(self,pk: int):
+        try:
+            todoo = Todo.objects.get(id=pk)
+            return todoo
+        except Todo.DoesNotExist:
+            return Response(None, status=status.HTTP_404_NOT_FOUND)
+    def get(self, request: Request, pk: int):
+        todo = self.get_object(pk)
+        serializer=TodoSerializer(todo)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def put(self, request: Request, pk: int):
+        todo = self.get_object(pk)
+        serializer = TodoSerializer(todo, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request: Request, pk: int):
+        todo = self.get_object(pk)
+        todo.delete()
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
 #endregion

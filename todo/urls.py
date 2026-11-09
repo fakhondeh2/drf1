@@ -18,12 +18,13 @@ from django.urls import path
 from . import views
 
 app_name = 'todo_urls'
-
 urlpatterns = [
-    path('', views.all_todos, name='todo_create_list'),
-    path('<todo_id>', views.todo_detail_view, name='detail_list_delet'),
+    path('', views.all_todos, name='todo_list'),
+    path('cbv', views.TodoList.as_view(), name='todo_list_class_base_view'),
 
-    path('cbv', views.TodoList.as_view(), name='todo_create_list_class_base_view'),
+    path('cbv/<todo_id>', views.Todo_detail_api_view.as_view(), name='detail_todo_class_base_view'),
+    path('<todo_id>', views.todo_detail_view, name='detail_list'),
 
-    # path('cbv<todo_id>', views.todo_detail_view, name='detail_list_delet'),
+
 ]
+
