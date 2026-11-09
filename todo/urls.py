@@ -22,7 +22,7 @@ urlpatterns = [
     path('', views.all_todos, name='todo_list'),
     path('cbv', views.TodoList.as_view(), name='todo_list_class_base_view'),
 
-    path('cbv/<todo_id>', views.Todo_detail_api_view.as_view(), name='detail_todo_class_base_view'),
+    path('cbv/<pk>', views.Todo_detail_api_view.as_view(), name='detail_todo_class_base_view'),
     path('<todo_id>', views.todo_detail_view, name='detail_list'),
 
 

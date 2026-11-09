@@ -84,22 +84,37 @@ class Todo_detail_api_view(APIView):
             todoo = Todo.objects.get(id=pk)
             return todoo
         except Todo.DoesNotExist:
-            return Response(None, status=status.HTTP_404_NOT_FOUND)
+            return None
+
+
     def get(self, request: Request, pk: int):
         todo = self.get_object(pk)
-        serializer=TodoSerializer(todo)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        if todo is not None:
+            serializer=TodoSerializer(todo)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(None, status=status.HTTP_404_NOT_FOUND)
+
+
 
     def put(self, request: Request, pk: int):
         todo = self.get_object(pk)
-        serializer = TodoSerializer(todo, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if todo is not None:
+            serializer = TodoSerializer(todo, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(None, status=status.HTTP_404_NOT_FOUND)
+
 
     def delete(self, request: Request, pk: int):
         todo = self.get_object(pk)
-        todo.delete()
-        return Response(None, status=status.HTTP_204_NO_CONTENT)
+        if todo is not None:
+            todo.delete()
+            return Response(None, status=status.HTTP_204_NO_CONTENT)
+
+        else:
+            return Response(None, status=status.HTTP_404_NOT_FOUND)
 #endregion
