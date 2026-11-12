@@ -7,6 +7,10 @@ from .serializers import TodoSerializer
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
+from rest_framework import generics , mixins
+from rest_framework import viewsets
+
+
 # Create your views here.
 
 
@@ -31,10 +35,10 @@ def all_todos(request: Request):
 
 
 @api_view(['GET',"PUT","DELETE"])
-def todo_detail_view(request: Request, todo_id: int):
+def todo_detail_view(request: Request, pk: int):
     global todo
     try:
-        todo=Todo.objects.get(id=todo_id)
+        todo=Todo.objects.get(id=pk)
     except Todo.DoesNotExist:
         return Response(None, status=status.HTTP_404_NOT_FOUND)
 
@@ -56,7 +60,6 @@ def todo_detail_view(request: Request, todo_id: int):
     else:
         return Response(None, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 #endregion
-
 
 #region class base view
 
@@ -117,4 +120,60 @@ class Todo_detail_api_view(APIView):
 
         else:
             return Response(None, status=status.HTTP_404_NOT_FOUND)
+#endregion
+
+# region mixins
+
+
+class Todo_mixin_list_mixin_api_view(mixins.ListModelMixin,mixins.CreateModelMixin, generics.GenericAPIView):
+    queryset = Todo.objects.order_by("priority").all()
+    serializer_class = TodoSerializer
+
+
+    def get(self,request: Request):
+        return self.list(request)
+
+
+    def post(self,request: Request):
+        return self.create(request)
+
+
+
+
+class Todo_detail_mixin_api_view(mixins.RetrieveModelMixin , mixins.UpdateModelMixin , mixins.DestroyModelMixin , generics.GenericAPIView):
+    queryset = Todo.objects.order_by("priority").all()
+    serializer_class = TodoSerializer
+
+
+    def get(self,request: Request ,pk: int):
+        return self.retrieve(request,pk)
+
+    def put(self,request: Request ,pk: int):
+        return self.update(request,pk)
+
+    def delete(self,request: Request ,pk: int):
+        return self.destroy(request,pk)
+#endregion mixins
+
+#region generics
+
+
+class Todo_generic_list_api_view(generics.ListCreateAPIView):
+    queryset = Todo.objects.order_by("priority").all()
+    serializer_class = TodoSerializer
+
+
+class Todo_generic_detail_api_view(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Todo.objects.order_by("priority").all()
+    serializer_class = TodoSerializer
+
+#endregion
+
+
+#region viewsets
+
+class Todo_viewsets_api_view(viewsets.ModelViewSet):
+    queryset = Todo.objects.order_by("priority").all()
+    serializer_class = TodoSerializer
+
 #endregion
