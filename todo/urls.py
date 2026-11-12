@@ -18,7 +18,7 @@ from django.urls import path , include
 from . import views
 from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
-router.register('todos', views.Todo_viewsets_api_view)
+router.register('', views.Todo_viewsets_api_view)
 
 
 app_name = 'todo_urls'
