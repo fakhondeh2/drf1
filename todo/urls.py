@@ -30,6 +30,7 @@ urlpatterns = [
     path('cbv', views.TodoList.as_view(), name='todo_list_class_base_view'),
     path('mixins', views.Todo_mixin_list_mixin_api_view.as_view(), name='todo_list_class_base_mixin_view'),
     path('generic', views.Todo_generic_list_api_view.as_view(), name='todo_list_class_base_generic_view'),
+    path('user', views.User_generic_api_view.as_view(), name='user_list_class_base_generic_view'),
 
 
     path('<pk>', views.todo_detail_view, name='detail_list'),
