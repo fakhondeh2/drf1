@@ -145,6 +145,8 @@ SPECTACULAR_SETTINGS = {
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
     # OTHER SETTINGS
+    'REDOC_DIST': 'https://cdn.redoc.ly/redoc/v2.x',
+
 }
 
 
